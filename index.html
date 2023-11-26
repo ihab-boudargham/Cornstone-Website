@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Corner Store</title>
+
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <section class="header-container h-96 border-2 border-black">
+        <div class="header h-14 border-2 border-black flex  justify-around">
+            <div class="header-left h-14 border-2 border-black w-32"></div>
+
+            <div class="header-middle h-14 border-2 border-black w-32"></div>
+
+            <div class="header-right h-14 border-2 border-black w-32 right-0"></div>
+        </div>
+        <div class="courosal flex relative ">
+            <div class="btn-left w-10 h-10 border-2 border-black absolute inset-y-1/2 rounded-full"></div>
+            <img class="current-image h-80 w-full" src="" alt="">
+            <div class="btn-right w-10 h-10 border-2 border-black absolute right-0 inset-y-1/2 rounded-full"></div>
+        </div>
+
+    </section>
+
+    <section class="store h-96 mt-0 border-2 border-black">
+        <div class="header-content h-14 border-2 border-black"></div>
+    </section>
+    <section class="About h-screen border-2 border-black"></section>
+</body>
+</html>
