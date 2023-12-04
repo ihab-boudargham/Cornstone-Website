@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <title>Validate Before Submit</title>
+    <style>
+      input {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <label for="first-name">First Name</label>
+      <input type="text" id="first-name" />
+      <p id="first-name-error" class="hidden text-red-500">Enter a first name 3 or more characters</p>
+
+      <label for="last-name">Last Name</label>
+      <input type="text" id="last-name" />
+      <p id="first-name-error" class="hidden text-red-500">Enter a first name 3 or more characters</p>
+
+      <button onclick="handleSubmit()" type="button">Submit Form</button>
+    </form>
+
+    <script>
+      function handleSubmit() {
+        let allInputsValid = true;
+        // step 1: validate all inputs
+        if (!validateFirstName()) {
+          allInputsValid = false;
+        }
+
+        // if(!validateLastName()){
+        //     allInputsValid=false
+        // }
+        // step 2: if all inputs are valid, submit
+        if (allInputsValid) {
+          submitToBackend();
+        }
+      }
+
+      function validateFirstName() {
+        let firstNameInputElement = document.querySelector('#first-name');
+        // if empty string, or false, or null...
+        if (!firstNameInputElement.value) {
+          document.querySelector('#first-name-error').classList.remove('hidden');
+          return false;
+        }
+
+        if (firstNameInputElement.value.length < 3) {
+          document.querySelector('#first-name-error').classList.remove('hidden');
+          return false;
+        }
+
+        document.querySelector('#first-name-error').classList.add('hidden');
+        return true;
+      }
+
+      function validateLastName() {
+        let lastNameInputElement = document.querySelector('#last-name');
+        // if empty string, or false, or null...
+        if (!lastNameInputElement.value) {
+          document.querySelector('#first-name-error').classList.remove('hidden');
+          return false;
+        }
+
+        if (lastNameInputElement.value.length < 3) {
+          document.querySelector('#last-name-error').classList.remove('hidden');
+          return false;
+        }
+
+        document.querySelector('#-name-error').classList.add('hidden');
+        return true;
+      }
+
+      function submitToBackend() {
+        // does nothing for now
+        console.log('Success');
+      }
+    </script>
+  </body>
+</html>

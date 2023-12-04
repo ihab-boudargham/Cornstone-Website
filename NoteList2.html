@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <title>Note List</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dimen {
+            height: 700px;
+            width: 500px;
+        }
+
+        .screen-view{
+            height: 600px;
+            width: 450px;
+        }
+
+        #userCards {
+            height: 600px;
+            overflow-y: auto; /* for scrolling */
+        }
+    </style>
+
+</head>
+<body class="flex gap-12 justify-center p-8 flex-wrap">
+    <div class="note-place dimen rounded-3xl bg-gray-100 flex justify-center items-center">
+        <div class="screen-view rounded-xl p-2" id="userCards"> 
+        </div>
+    </div>
+
+    <body class="flex justify-center items-center h-screen bg-gray-100">
+    
+        <section class="note-body w-full max-w-md p-6 bg-white rounded-lg shadow-xl">
+            <h1 class="text-3xl font-bold mb-4">Create Your Note</h1>
+    
+            <textarea class="border-2 p-2 rounded-md w-full bg-gray-200 mb-4" name="" id="" cols="30" rows="6"
+                placeholder="Write your note here..."></textarea>
+    
+            <form class="flex flex-col mb-4">
+                <label for="priority" class="text-sm font-medium text-gray-600 mb-1">Priority</label>
+                <div class="flex flex-col gap-2">
+                    <label class="flex items-center">
+                        <input type="radio" name="priority" value="Very Low" class="mr-2 text-blue-500">
+                        Very Low 
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="priority" value="Low" class="mr-2 text-green-500">
+                        Low 
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="priority" value="Medium" class="mr-2 text-yellow-500">
+                        Medium
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="priority" value="High" class="mr-2 text-orange-500">
+                        High 
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="priority" value="Very High" class="mr-2 text-red-500">
+                        Very High 
+                    </label>
+                </div>
+            </form>
+    
+            <div class="mb-4">
+                <label for="selectOption" class="text-sm font-medium text-gray-600">Categories</label>
+                <select id="selectOption" name="age"
+                    class="mt-1 p-2 border rounded-xl w-full text-sm font-medium text-gray-600">
+                    <option value="" disabled selected>Select a category</option>
+                    <option value="home">Home</option>
+                    <option value="hobbies">Hobbies</option>
+                    <option value="work">Work</option>
+                </select>
+            </div>
+    
+            <div class="flex justify-end">
+                <button onclick="getInputs()" id="submitButton"
+                    class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
+                    Submit
+                </button>
+            </div>
+
+        </section>
+
+
+        
+    <script>
+
+        var usersArray = [];
+
+        function getInputs() {
+        // Get user input values
+        var content = document.querySelector('textarea').value;
+        var priority = document.querySelector('input[name="priority"]:checked');
+        var categories = document.getElementById('selectOption').value;
+
+        // Check if all fields are filled
+        if (content && priority && categories) {
+            // Create user object
+            var user = {
+                content: content,
+                priority: priority.value,
+                categories: categories
+            };
+
+            usersArray.push(user);
+
+            console.log(usersArray);
+
+            displayUserCards();
+
+            // Clear the form after submission
+            document.querySelector('textarea').value = '';
+            priority.checked = false;
+            document.getElementById('selectOption').value = '';
+
+            } else {
+                alert('Please fill in all fields before submitting.');
+            }
+        }
+        
+        // Function to create HTML for a user card
+        function createHTMLUserCard(user) {
+            let cardHTML = `
+                <div class="user-card flex border border-gray-300 mb-2 rounded-lg bg-white p-4 justify-between shadow-md">
+                    <div class="flex items-center">
+                        <i class="fas fa-user-circle text-3xl text-gray-500"></i>
+                    </div>
+
+                    <div class="w-96 pl-5">
+                        <p class="text-lg font-semibold">${user.content}</p>
+                        <p class="text-md"><strong>Priority:</strong> ${user.priority}</p>
+                        <p class="text-md"><strong>Category:</strong> ${user.categories}</p>
+                    </div>                            
+
+                    <div class="flex items-center">
+                        <span class="cursor-pointer text-gray-500 hover:text-red-500 transition" onclick="removeNoteById('${user.id}')">
+                            <i class="fas fa-times"></i>
+                        </span>
+                    </div>
+                </div>
+            `;
+            return cardHTML;
+        }
+
+        // Function to remove a note by ID
+        function removeNoteById(noteId) {
+            // Find the index of the note with the given ID
+            const indexToRemove = usersArray.findIndex(user => user.id === noteId);
+
+            // If the note is found, remove it from the usersArray
+            if (indexToRemove !== -1) {
+                usersArray.splice(indexToRemove, 1);
+            }
+
+            // Update the display
+            displayUserCards();
+        }
+
+        // Function to display user cards
+        function displayUserCards() {
+            // Select the container for user cards
+            var userCardsContainer = document.getElementById('userCards');
+
+            // Check if the container exists before proceeding
+            if (userCardsContainer) {
+                userCardsContainer.innerHTML = '';
+
+                // Iterate through usersArray and create HTML for each user card
+                usersArray.forEach(function(user) {
+                    var cardHTML = createHTMLUserCard(user);
+                    userCardsContainer.innerHTML += cardHTML;
+                });
+            } else {
+                console.error('userCardsContainer is null');
+            }
+        }
+
+        // Event listener to remove a note when X icon is clicked
+        document.addEventListener('DOMContentLoaded', function () {
+            // Assuming your userCardsContainer has an ID of 'userCards'
+            var userCardsContainer = document.getElementById('userCards');
+
+            userCardsContainer.addEventListener('click', function (event) {
+                // Check if the clicked element is the X icon
+                if (event.target.classList.contains('fa-times')) {
+                    // Get the closest user card element
+                    const userCard = event.target.closest('.user-card');
+
+                    // Extract the note ID from the user card's dataset
+                    const noteId = userCard.dataset.noteId;
+
+                    // Call the removeNoteById function
+                    removeNoteById(noteId);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

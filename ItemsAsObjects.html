@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <title>Generated Cards</title>
+    <style>
+      .cards-grid {
+        height: 100vh;
+      }
+      input {
+        border: 1px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <label for="max-price">Max Price:</label>
+    <input type="number" name="max-price" id="max-price" />
+    <label for="search-term">Search Term:</label>
+    <input type="text" name="search-term" id="search-term" />
+    <span class="sort-asc p-2 bg-gray-200">asc &#x2191;</span>
+    <span class="sort-desc p-2 bg-gray-200">desc &#8595;</span>
+    <div class="cards-grid flex flex-wrap justify-center items-center gap-5"></div>
+    <script>
+      let products = [
+        {
+          name: 'product 1',
+          price: 39,
+          img: 'products/1.webp'
+        },
+        {
+          name: 'product 2',
+          price: 49,
+          img: 'products/2.avif'
+        },
+        {
+          name: 'product 3',
+          price: 99,
+          img: 'products/3.avif'
+        },
+        {
+          name: 'product 4',
+          price: 9,
+          img: 'products/4.webp'
+        }
+      ];
+
+      let cardsGrid = document.querySelector('.cards-grid');
+      function populateProductsGrid(productsParam) {
+        cardsGrid.innerHTML = '';
+        productsParam.forEach(function (product) {
+          let cardHTML = createHTMLProductCard(product);
+          cardsGrid.innerHTML = cardsGrid.innerHTML + cardHTML;
+        });
+      }
+      populateProductsGrid(products);
+
+      function filterProducts(products, maxPrice, searchTerm) {
+        // filter by price
+        let filteredProducts = products.filter(function (product) {
+          if (maxPrice <= 0 || isNaN(maxPrice)) {
+            return true;
+          }
+
+          // product.price
+          if (product.price < maxPrice) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+
+        // filter by search
+        filteredProducts = filteredProducts.filter(function (product) {
+          if (product.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+
+        return filteredProducts;
+      }
+
+      let maxPriceInputElement = document.querySelector('#max-price');
+      let searchTermElement = document.querySelector('#search-term');
+
+      maxPriceInputElement.addEventListener('input', function () {
+        let filteredProducts = filterProducts(products, maxPriceInputElement.value, searchTermElement.value);
+        populateProductsGrid(filteredProducts);
+      });
+
+      searchTermElement.addEventListener('input', function () {
+        populateProductsGrid(filterProducts(products, maxPriceInputElement.value, searchTermElement.value));
+      });
+      function createHTMLProductCard(product) {
+        let cardHTML = `
+        <div class="card w-52 shadow-md">
+            <div class="img-wrapper border h-52 w-52 overflow-hidden">
+              <img class="h-full max-w-none" src="${product.img}" alt="" />
+            </div>
+            <div class="card-details p-2">
+              <div class="flex justify-between items-center">
+                <h3 class="product-name">${product.name}</h3>
+                <i class="fas fa-heart"></i>
+              </div>
+              <div class="price">$${product.price}</div>
+            </div>
+        </div>
+        `;
+        return cardHTML;
+      }
+
+      function sortPriceAsc(arrayOfItems) {
+        let sortedArr = arrayOfItems.sort(function (prod1, prod2) {
+          return prod1.price - prod2.price;
+        });
+
+        return sortedArr;
+      }
+      
+      function sortPriceDesc (arrayOfItems){
+        let sortedArr = arrayOfItems.sort(function (prod1, prod2) {
+          return prod2.price - prod1.price;
+        });
+
+        return sortedArr;
+      }
+      document.querySelector('.sort-asc').addEventListener('click',function(){
+        let sortedArr = sortPriceAsc(products)
+        populateProductsGrid(sortedArr)
+      })
+      document.querySelector('.sort-desc').addEventListener('click', function(){
+        let sortedArr = sortPriceDesc(products)
+        populateProductsGrid(sortedArr)
+      })
+    </script>
+  </body>
+</html>

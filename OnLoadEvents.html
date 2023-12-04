@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // Define a function to handle the sorting and separation logic
+        function processArrays() {
+            var myArray = [4, 2, 1, 5, 3, 10, 20, 19];
+
+            // Display the original array
+            console.log("Original Array:", myArray);
+
+            // Sort the array in ascending order using the comparison function a - b
+            myArray.sort(function(a, b) {
+                console.log(`Comparing ${a} and ${b}: ${a - b}`);
+                return a - b;
+            });
+
+            // Display the sorted array after a delay of 2 seconds
+            setTimeout(function() {
+                console.log("Sorted Array:", myArray);
+
+                // Separate even and odd numbers
+                var evenNumbers = myArray.filter(function(number) {
+                    return number % 2 === 0;
+                });
+
+                var oddNumbers = myArray.filter(function(number) {
+                    return number % 2 !== 0;
+                });
+
+                // Display even and odd arrays
+                console.log("Even Numbers:", evenNumbers);
+                console.log("Odd Numbers:", oddNumbers);
+            }, 2000); // 2000 milliseconds = 2 seconds
+        }
+
+        // Assign the function to the window.onload event
+        window.onload = processArrays;
+    </script>
+</body>
+</html>

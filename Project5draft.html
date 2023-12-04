@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <title>Document</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        .height {
+            height: 600px;
+        }
+
+        
+        @media (max-width: 1200px) {
+          .socials {
+          flex-direction: column;
+        }
+        }
+
+        .cart-container-height {
+            height: 600px;
+        }
+
+        .background-before {
+            background-color: rgb(132, 204, 22);
+        }
+
+        .background-after {
+            background-color: rgb(101, 163, 13);
+        }
+
+        .background-before:hover {
+            background-color: rgb(101, 163, 13);
+        }
+
+        @media (max-width: 764px) {
+          .socials p {
+          flex-direction: column;
+          margin-top: 30px;
+        }
+        }
+
+
+    @media (max-width: 1200px) {
+        .socials {
+            flex-direction: column;
+        }
+
+        .social {
+            margin-top: 60px;
+ 
+        }
+    }
+
+    @media (max-width: 700px) {
+        #store-search {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .socials-content .about {
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+
+        .socials-content .socials {
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+
+        .social {
+            margin-left: -100px;
+    }
+    }
+
+    @media (max-width: 560px) {
+        .header-container .header {
+            gap:30px;
+        }
+        .social {
+            margin-left: -150px;
+        }
+    }
+
+    </style>
+</head>
+
+<body class="relative">
+    <section class="header-container">
+        <div class="header h-12 w-screen flex justify-around gap-32 items-center">
+            
+            <div class="nav1 w-32">
+                <ul class="flex gap-4 font-mono font-bold justify-around">
+                    <li><a href="">Shop</a></li>
+                    <li><a href="">About</a></li>
+                </ul>
+            </div>
+
+            <div>
+                    <i class="fas fa-shopping-bag"></i>
+            </div>
+
+            <div class="nav2 w-32">
+                <ul class="flex gap-4 font-mono font-bold justify-around">
+                    <i class="fas fa-solid fa-user"></i>
+                    <i class="fas fa-shopping-cart"></i>
+                </ul>
+            </div>
+        </div>
+
+        <div class="carousel flex relative">
+            <div class="btn-left w-10 h-10 bg-white shadow-inner absolute inset-y-1/2 rounded-full ml-2 ">
+                <i class="fas fa-solid fa-chevron-left pt-3 pl-3"></i>
+            </div>
+            <div class=" w-screen overflow-hidden">
+                <img class="current-image h-auto w-screen max-w-full" src="images\1s.jpg" alt="">
+            </div>
+            <div class="btn-right w-10 h-10 bg-white shadow-inner absolute right-0 inset-y-1/2 rounded-full mr-2 ">
+                <i class="fas fa-solid fa-chevron-right pt-3 pl-4"></i>
+            </div>
+        </div>
+    </section>  
+
+    <!-- carousel -->
+    <script>
+        let imageSources = ["images/1s.jpg", "images/2s.jpg", "images/3s.jpg", "images/4s.jpg","images/5s.jpg", "images/6s.jpg"];
+        
+        let imageIndex = 0;
+        updateUI();
+
+        function moveRight () {
+            imageIndex = imageIndex + 1;
+            // if (imageIndex > 3) {
+            //     imageIndex = 0;
+            // }
+            if (imageIndex > imageSources.length -1) {
+                imageIndex = 0;
+            }
+            updateUI();
+        }
+
+        function moveLeft () {
+            imageIndex = imageIndex - 1;
+            // if (imageIndex < 0) {
+            //     imageIndex = 3;
+            // }
+            if (imageIndex < 0) {
+                imageIndex = imageSources.length -1;
+            }
+            updateUI();
+        }
+
+        function updateUI() {
+        document.querySelector('.carousel img').src = imageSources[imageIndex];
+        }
+
+        let leftBtn = document.querySelector('.btn-left');
+        leftBtn.addEventListener('click', moveLeft);
+
+        let rightBtn = document.querySelector('.btn-right');
+        rightBtn.addEventListener('click', moveRight);
+    </script>    
+    
+    <section id="store" class="bg-white px-6 pt-6 relative">
+        <div class="all-section px-10 pt-10">
+            <div class="store-section-header flex justify-between relative pr-20 pl-12">
+                <h2 class="font-mono font-bold">STORE</h2>
+                <div class="flex gap-5 items-center">
+                    <i class="sort-desc fas fa-solid fa-sort-down"></i>
+                    <i class="sort-asc fas fa-solid fa-sort-up"></i>
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+            <div id="store-search" class="hidden flex gap-2 right-10 top-10 justify-end p-8 gap-12 ">
+                <label for="max-price"></label>
+                <input type="number" name="max-price" id="max-price" placeholder="Maximum Price" class="pl-2 h-10" />
+                <label for="search-term"></label>
+                <input class="border-black border-1 pl-2 h-10" placeholder="Search for Products" type="text" id="search-term" /> 
+                <i id="store-search-close" class="fas fa-times pt-3"></i>
+            </div>
+
+            <div class="cards-grid flex flex-wrap justify-center items-center gap-6 mt-12"></div>
+            <div class="flex justify-end py-12">
+                <button onclick="showCart()" class="checkout px-4 py-2 rounded-full background-before text-white font-bold rounded-md flex items-center">
+                    <i class="fas fa-shopping-cart mr-2"></i>
+                    Checkout
+                </button>
+            </div>
+        </div>
+
+        <div class="cart absolute h-full w-full hidden top-0 bg-white p-8 sm:p-16 md:p-20 lg:p-24 xl:p-32">
+            <div class="flex justify-between items-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8">Your Shopping Cart</h2>
+                <p onclick="hideCart()" class="cursor-pointer text-3xl mb-8"><i class="fas fa-times"></i></p>
+            </div>
+
+            <div class="cart-contents cart-container-height bg-gray-100 p-4 overflow-y-auto">
+            </div>
+            <div class="flex justify-end items-center px-20 mt-6">
+                <div class="cart-total text-xl font-semibold text-green-500 border-2 border-green-500 px-4 py-2 rounded-full">
+                    Total Price: $0
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Populating Grids -->
+    <script>
+        // Array of product objects
+        let products = [
+            {
+            name: 'Gray Round Table',
+            price: 110,
+            img: 'images/Gray Round Table.jpg',
+            id: 'product_1'
+            },
+            {
+            name: 'Modern Center Table',
+            price: 127,
+            img: 'images/Modern Center Table with Storage.jpg',
+            id: 'product_2'
+            },
+            {
+            name: 'Modern Square Table',
+            price: 85,
+            img: 'images/Modern Square Size Table.jpg',
+            id: 'product_3'
+            },
+            {
+            name: 'Set of Two  Tables',
+            price: 94,
+            img: 'images/Set of Two Nesting Tables.jpg',
+            id: 'product_4'
+            },
+            {
+            name: 'Valvet Fabric Chair',
+            price: 49,
+            img: 'images/Valvet Fabric Dining Chair.jpg',
+            id: 'product_5'
+            },
+            {
+            name: 'Alana',
+            price: 440,
+            img: 'images/Alana.jpg',
+            id: 'product_6'
+            },
+            {
+            name: 'Antima',
+            price: 695,
+            img: 'images/Antima.jpeg',
+            id: 'product_7'
+            },
+            {
+            name: 'Bilera',
+            price: 525,
+            img: 'images/Bilera.jpeg',
+            id: 'product_8'
+            },
+            {
+            name: 'Emersa',
+            price: 675,
+            img: 'images/Emersa.jpg',
+            id: 'product_9'
+            },
+            {
+            name: 'Kiyera',
+            price: 850,
+            img: 'images/Kiyera.jpeg',
+            id: 'product_10'
+            }
+        ];
+
+        function createHTMLProductCard(product) {
+            let cardHTML = `
+                <div class="card w-64 shadow-md bg-white rounded-lg overflow-hidden">
+                    <div class="img-wrapper border h-44 w-64 overflow-hidden">
+                        <img class="h-full w-full object-cover" src="${product.img}" alt="${product.name}" />
+                    </div>
+                    <div class="card-details p-4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-gray-800">${product.name}</h3>
+                            <i onclick="toggleHeartColor(this)" class="heart-icon fas fa-heart text-black"></i>
+                        </div>
+                        <div class="flex justify-between items-center mt-2">
+                            <div class="text-lg font-bold text-green-500">$${product.price}</div>
+                            <button onclick="addItemToCart('${product.id}');" data-product-identifier="${product.id}" class="bg-blue-500 text-white px-4 py-2 rounded-full flex items-center justify-center hover:bg-blue-700">
+                                <i class="fas fa-cart-plus mr-2"></i> Add To Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return cardHTML;
+        }
+
+        function toggleHeartColor(heartIcon) {
+            heartIcon.classList.toggle('text-red-500');
+        }
+
+        let cardsGrid = document.querySelector('.cards-grid');
+        function populateProductsGrid(productsParam) {
+            cardsGrid.innerHTML = '';
+            productsParam.forEach(function (product) {
+            let cardHTML = createHTMLProductCard(product);
+            cardsGrid.innerHTML = cardsGrid.innerHTML + cardHTML;
+            });
+        }
+        populateProductsGrid(products);
+     
+    </script>
+
+    <!-- Filter Products -->
+      <script>
+      function filterProducts(products, maxPrice, searchTerm) {
+        // filter by price
+        let filteredProducts = products.filter(function (product) {
+          if (maxPrice <= 0 || isNaN(maxPrice)) {
+            return true;
+          }
+
+          // product.price
+          if (product.price < maxPrice) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+
+        // filter by search
+        filteredProducts = filteredProducts.filter(function (product) {
+          if (product.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+
+        return filteredProducts;
+      }
+
+      let maxPriceInputElement = document.querySelector('#max-price');
+      let searchTermElement = document.querySelector('#search-term');
+
+      maxPriceInputElement.addEventListener('input', function () {
+        let filteredProducts = filterProducts(products, maxPriceInputElement.value, searchTermElement.value);
+        populateProductsGrid(filteredProducts);
+      });
+
+      searchTermElement.addEventListener('input', function () {
+        populateProductsGrid(filterProducts(products, maxPriceInputElement.value, searchTermElement.value));
+      });
+
+
+      function sortPriceAsc(arrayOfItems) {
+        let sortedArr = arrayOfItems.sort(function (prod1, prod2) {
+          return prod1.price - prod2.price;
+        });
+
+        return sortedArr;
+      }
+      
+      function sortPriceDesc (arrayOfItems){
+        let sortedArr = arrayOfItems.sort(function (prod1, prod2) {
+          return prod2.price - prod1.price;
+        });
+
+        return sortedArr;
+      }
+      document.querySelector('.sort-asc').addEventListener('click',function(){
+        let sortedArr = sortPriceAsc(products)
+        populateProductsGrid(sortedArr)
+      })
+      document.querySelector('.sort-desc').addEventListener('click', function(){
+        let sortedArr = sortPriceDesc(products)
+        populateProductsGrid(sortedArr)
+      })
+      
+        // store search hide/show
+        // get search element
+        let storeSearch = document.querySelector('#store-search');
+        // get search icon
+        let searchIcon = document.querySelector('.fa-search');
+        function showSearch() {
+            storeSearch.classList.remove('hidden');
+        }
+        searchIcon.addEventListener('click', showSearch);
+
+        let closeSearchIcon = document.querySelector('#store-search-close');
+        function hideSearch() {
+            storeSearch.classList.add('hidden');
+        }
+        closeSearchIcon.addEventListener('click', hideSearch);
+      
+    </script>
+
+    <!-- Filter and Sorting -->
+    <script>
+        function filterAndSortProducts() {
+        const maxPrice = parseFloat(maxPriceInputElement.value);
+        const searchTerm = searchTermElement.value.toLowerCase();
+
+        // Filter products based on both name and price
+        const filteredProducts = filterProducts(products, maxPrice, searchTerm);
+
+        // Sort the filtered products in ascending order
+        const sortedFilteredProducts = sortPriceAsc(filteredProducts);
+
+        // Populate the grid with the sorted and filtered products
+        populateProductsGrid(sortedFilteredProducts);
+        }
+
+        maxPriceInputElement.addEventListener('input', filterAndSortProducts);
+
+        searchTermElement.addEventListener('input', filterAndSortProducts);
+
+        document.querySelector('.sort-asc').addEventListener('click', function () {
+        // Sort the filtered products in ascending order
+        const filteredProducts = filterProducts(products, parseFloat(maxPriceInputElement.value), searchTermElement.value);
+        const sortedFilteredProducts = sortPriceAsc(filteredProducts);
+        populateProductsGrid(sortedFilteredProducts);
+        });
+
+        document.querySelector('.sort-desc').addEventListener('click', function () {
+        // Sort the filtered products in descending order
+        const filteredProducts = filterProducts(products, parseFloat(maxPriceInputElement.value), searchTermElement.value);
+        const sortedFilteredProducts = sortPriceDesc(filteredProducts);
+        populateProductsGrid(sortedFilteredProducts);
+        });
+    </script>
+
+<section class="socials-content">
+    <div class="about w-screen px-28 pt-1">
+        <h1 class="font-bold font-mono">ABOUT</h1>
+
+        <p class="sans-serif pt-16">Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto facilis incidunt dignissimos esse dolore? Magni quos saepe voluptatum, obcaecati delectus eveniet quia repellendus dolor provident excepturi sint tenetur debitis. Error rem a ex autem nemo architecto, delectus dolorum quis. Aperiam incidunt iusto minima atque, libero dolore perspiciatis placeat eligendi corporis autem nam at laboriosam corrupti aliquid quas. Corporis hic a iusto nulla magnam nemo quibusdam maiores voluptate nostrum reiciendis, possimus consectetur perspiciatis reprehenderit veniam iste vitae? Necessitatibus cupiditate voluptatum pariatur adipisci optio placeat libero aliquam similique a ab repudiandae debitis dolores ex laudantium fugiat temporibus deserunt repellendus inventore quis, excepturi eveniet. Dolore quibusdam consequatur asperiores repudiandae rem, cumque velit beatae nulla, iusto reprehenderit enim dolores ipsam inventore itaque. Impedit, qui?</p>
+    </div>
+
+    <style>
+        .hr-width {
+            width: 1200px;
+        }
+    </style>
+
+    <div class="separator flex justify-center pt-12">
+        <hr class="hr-width border-b-1 border-gray-800">
+    </div>
+    
+    <div class="socials flex px-28 py-24 justify-between">
+        <div class="abt">
+            <h2 class="font-bold font-mono">About</h2>
+            <p class="pt-20"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad veritatis accusamus quo magni, a reiciendis? Ea, et dolore aut atque vel corrupti voluptatem officia culpa fugiat vitae, explicabo sunt illum. Sunt aspernatur odit dolorem dolor culpa, autem accusamus reprehenderit vero quidem dolore? Explicabo veritatis quia aspernatur perferendis? Est, necessitatibus error.</p>
+        </div>
+    
+        <div class="social relative w-96">
+            <h2 class="font-bold font-mono absolute right-0">Socials</h2>
+            <p class="pt-24 flex absolute right-0">Socials here</p>
+        </div>
+    </div>
+    
+    
+</section>
+
+<script>
+    let cart = [];
+    
+    function addItemToCart (productId){
+        // add product to cart
+        cart.push(productId)
+        updateCartContentsUI()
+        updateCartTotalUI()
+    }
+    
+    function removeItemFromCart(productId) {
+    // find the index of the first occurrence of the product ID
+    let indexToRemove = cart.indexOf(productId);
+
+    // If the item is found, remove it from the cart array
+    if (indexToRemove !== -1) {
+        cart.splice(indexToRemove, 1);
+    }
+
+    updateCartContentsUI();
+    updateCartTotalUI();
+    }
+      
+    // select div with class cart-contents
+    let cartContentsElement = document.querySelector('.cart-contents')
+    
+    // select total price UI element
+    let totalPriceUIElement = document.querySelector('.cart-total')
+    function updateCartTotalUI(){
+    
+    let totalPrice = 0;
+    // calculcate total price
+    cart.forEach(function(cartItemID){
+        let product = products.find(function(product){
+        return product.id === cartItemID
+        })
+        
+        if(!product){
+        return false;
+        }
+        
+        let price = product.price;
+        totalPrice = totalPrice + price;
+    })
+    
+    // replace HTML
+    totalPriceUIElement.innerHTML = `$${totalPrice}`
+    }
+    function updateCartContentsUI (){
+    cartContentsElement.innerHTML = '';
+    cart.forEach(function(cartItem){
+        let cartItemUIElement = generateCartItemHTML(cartItem)
+        
+        if(cartItemUIElement == false){
+        // TODO display message telling user that product was not found
+        console.log("item not found")
+        } else {
+        cartContentsElement.innerHTML = cartContentsElement.innerHTML + cartItemUIElement
+        }
+    })
+    }
+    
+// Function to generate HTML for a cart item based on the provided item ID
+function generateCartItemHTML(itemID) {
+    let product = products.find(function (product) {
+        return product.id === itemID;
+    });
+
+    if (!product) {
+        return false;
+    }
+
+    let cartItemHTML = `
+        <div class="cart-item flex shadow-md rounded-md my-4 bg-white relative h-44">
+            <div class="cart-item-img-wrapper border h-44 w-44 overflow-hidden">
+                <img class="h-full" src="${product.img}" alt="${product.name}" />
+            </div>
+            <div class="cart-item-details p-4 flex-grow">
+                <h3 class="product-name text-lg font-semibold mb-2 text-indigo-700">${product.name}</h3>
+                <div class="price text-base font-bold text-green-600">$${product.price}</div>
+            </div>
+            <button onclick="removeItemFromCart('${product.id}')" class="remove-button absolute top-2 right-2 transition-transform transform hover:scale-110 bg-red-500 text-white rounded-full p-1">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+
+    return cartItemHTML;
+}
+
+let cartElement = document.querySelector('.cart');
+
+function showCart() {
+    cartElement.classList.remove('hidden');
+}
+
+function hideCart() {
+    cartElement.classList.add('hidden');
+}
+
+</script>
+
+</body>
+</html>
