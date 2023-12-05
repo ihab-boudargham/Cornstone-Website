@@ -99,6 +99,16 @@
 
         var usersArray = [];
 
+        // Load existing notes from localStorage on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            var storedNotes = localStorage.getItem('userNotes');
+
+            if (storedNotes) {
+                usersArray = JSON.parse(storedNotes);
+                displayUserCards();
+            }
+        });
+
         function getInputs() {
         // Get user input values
         var content = document.querySelector('textarea').value;
@@ -109,6 +119,7 @@
         if (content && priority && categories) {
             // Create user object
             var user = {
+                id: Date.now(), // Add a unique ID for each note
                 content: content,
                 priority: priority.value,
                 categories: categories
@@ -116,7 +127,8 @@
 
             usersArray.push(user);
 
-            console.log(usersArray);
+            // Save the updated usersArray to localStorage
+            localStorage.setItem('userNotes', JSON.stringify(usersArray));
 
             displayUserCards();
 
@@ -133,7 +145,7 @@
         // Function to create HTML for a user card
         function createHTMLUserCard(user) {
             let cardHTML = `
-                <div class="user-card flex border border-gray-300 mb-2 rounded-lg bg-white p-4 justify-between shadow-md">
+                <div class="user-card flex border border-gray-300 mb-2 rounded-lg bg-white p-4 justify-between shadow-md" data-note-id="${user.id}">
                     <div class="flex items-center">
                         <i class="fas fa-user-circle text-3xl text-gray-500"></i>
                     </div>
@@ -157,15 +169,18 @@
         // Function to remove a note by ID
         function removeNoteById(noteId) {
             // Find the index of the note with the given ID
-            const indexToRemove = usersArray.findIndex(user => user.id === noteId);
+            const indexToRemove = usersArray.findIndex(user => user.id == noteId); // Use loose equality to match string and number
 
             // If the note is found, remove it from the usersArray
             if (indexToRemove !== -1) {
                 usersArray.splice(indexToRemove, 1);
-            }
 
-            // Update the display
-            displayUserCards();
+                // Save the updated usersArray to localStorage
+                localStorage.setItem('userNotes', JSON.stringify(usersArray));
+
+                // Update the display
+                displayUserCards();
+            }
         }
 
         // Function to display user cards
