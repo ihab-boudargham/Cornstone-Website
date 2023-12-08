@@ -440,6 +440,9 @@
       noteBeingEdited.priority = priorityInputValue;
       noteBeingEdited.category = categoryInput.value;
 
+      // Update notes array and save to local storage
+      updateNotesArray(notes);
+
       // Reflect changes to UI after the update
       updateUINotesContainer();
     } else {
@@ -452,7 +455,7 @@
         category: categoryInput.value
       };
 
-      // Update notes array
+      // Update notes array and save to local storage
       updateNotesArray([...notes, newNote]);
     }
 
@@ -520,13 +523,17 @@ function populateFormInputs(noteObject = {}) {
   // get note
   noteBeingEdited = notes.find(function(note){
     return noteID === note.id
-  })
-  if(!noteBeingEdited){
+  });
+
+  if (!noteBeingEdited) {
     return;
   }
 
   // populate form inputs
   populateFormInputs(noteBeingEdited);
+
+  // You need to call updateNotesArray here to save the changes in local storage
+  updateNotesArray(notes);
 }
 
 function populateFormInputs(noteObject = {}) {
